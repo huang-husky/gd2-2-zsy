@@ -515,7 +515,7 @@
   <div id="letterBox"></div>
 </div>
 
-<audio id="bgMusic" loop>
+<audio id="bgMusic" loop preload="auto">
   <source src="bg.mp3" type="audio/mpeg">
 </audio>
 
@@ -581,6 +581,9 @@
   const progress = document.getElementById('progress');
   const utilityCurve = document.getElementById('utilityCurve');
   let isPlaying = false;
+
+  // 页面加载时立即预加载音频（等到验证通过后再播放）
+  audio.load();
 
   function updateProgress() {
     const max = document.documentElement.scrollHeight - window.innerHeight;
