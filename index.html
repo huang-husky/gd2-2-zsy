@@ -7,7 +7,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet">
 
   <style>
-    /* 正文字体：蔡云汉鼎毛笔行书，已按信中用字做子集 */
     @font-face {
       font-family: 'LetterFont';
       src: url('text.subset.woff2') format('woff2');
@@ -15,13 +14,13 @@
     }
 
     :root {
-      --ink: #2d3748;           /* 石墨灰 */
+      --ink: #2d3748;     
       --ink-soft: #4a5568;
       --ink-faint: #718096;
       --line: #cbd5e0;
-      --accent: #3182ce;        /* 学术蓝 */
+      --accent: #3182ce;        
       --accent-soft: rgba(49, 130, 206, 0.10);
-      --paper: #faf9f7;         /* 略带暖黄的纸色 */
+      --paper: #faf9f7;  
       --grid: rgba(49, 130, 206, 0.06);
       --mono: ui-monospace, "SF Mono", "Cascadia Mono", "Consolas", monospace;
     }
@@ -37,7 +36,6 @@
       overflow-x: hidden;
     }
 
-    /* ---------- 背景：坐标纸网格 ---------- */
     .page-grid {
       position: fixed;
       inset: 0;
@@ -51,7 +49,6 @@
       -webkit-mask-image: radial-gradient(ellipse 85% 75% at 50% 45%, #000 25%, transparent 80%);
     }
 
-    /* ---------- 启封页：坐标纸上的散点 ---------- */
     .gate {
       position: relative;
       z-index: 1;
@@ -65,7 +62,6 @@
     }
     .gate.leaving { opacity: 0; }
 
-    /* 坐标轴网格 */
     .coord-grid {
       position: relative;
       width: 280px;
@@ -79,7 +75,6 @@
       border-bottom: 1px solid var(--ink-faint);
     }
 
-    /* 散点（16个点对应16格验证） */
     .scatter-point {
       position: absolute;
       width: 8px;
@@ -97,7 +92,6 @@
       box-shadow: 0 0 8px var(--accent-soft);
     }
 
-    /* 效用函数曲线（验证通过后绘制） */
     .utility-curve {
       position: absolute;
       left: 0; bottom: 0;
@@ -114,7 +108,6 @@
       overflow: visible;
     }
 
-    /* 坐标轴标签 */
     .axis-label {
       position: absolute;
       font-family: var(--mono);
@@ -186,7 +179,6 @@
     }
     .gate .hint.ok { color: var(--accent); }
 
-    /* 拒绝动画：抖动 */
     .coord-grid.denied {
       animation: denyShake 0.5s ease;
     }
@@ -201,7 +193,6 @@
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    /* ---------- 信纸：坐标纸样式 ---------- */
     .container {
       display: none;
       position: relative;
@@ -216,14 +207,12 @@
         0 4px 6px rgba(45, 55, 72, 0.03),
         0 10px 40px rgba(45, 55, 72, 0.08);
       animation: fadeIn 1.1s ease-out;
-      /* 坐标网格背景 */
       background-image:
         linear-gradient(to right, var(--grid) 1px, transparent 1px),
         linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
       background-size: 40px 40px;
     }
 
-    /* 顶部装饰线 */
     .container::before {
       content: '';
       position: absolute;
@@ -236,8 +225,6 @@
         transparent 100%);
       opacity: 0.6;
     }
-
-    /* 右上角文档元信息 */
     .meta {
       position: absolute;
       top: 22px; right: 26px;
@@ -258,7 +245,6 @@
       text-indent: 0.35em;
       color: var(--ink);
     }
-    /* 标题下的装饰：小坐标轴 */
     .rule {
       width: 80px; height: 1px;
       margin: 18px auto 0;
@@ -289,7 +275,6 @@
       color: var(--ink);
     }
 
-    /* ---------- 引文：钢笔批注样式 ---------- */
     .quote {
       margin: 2em 0 2em 1.8em;
       padding: 0.2em 0 0.2em 1.4em;
@@ -301,7 +286,6 @@
       color: var(--ink-soft);
       position: relative;
     }
-    /* 钢笔图标 */
     .quote::before {
       content: '✑';
       position: absolute;
@@ -311,8 +295,6 @@
       color: var(--accent);
       transform: rotate(-15deg);
     }
-
-    /* 重点标注：蓝色圆圈 */
     .highlight {
       position: relative;
       color: var(--accent);
@@ -329,7 +311,6 @@
       pointer-events: none;
     }
 
-    /* ---------- 页边坐标地址 ---------- */
     .paragraph[data-addr]::before {
       content: attr(data-addr);
       position: absolute;
@@ -343,7 +324,6 @@
       pointer-events: none;
     }
 
-    /* ---------- 阅读进度 ---------- */
     .progress {
       display: none;
       position: fixed;
@@ -357,15 +337,12 @@
       background: rgba(49, 130, 206, 0.15);
       color: var(--ink);
     }
-
-    /* ---------- 边界：横轴 ---------- */
     .boundary {
       position: relative;
       height: 1px;
       margin: 48px 0 40px;
       border-top: 1px dashed var(--ink-faint);
     }
-    /* 坐标原点 */
     .boundary::after {
       content: '';
       position: absolute;
@@ -386,7 +363,6 @@
       color: var(--ink-faint);
     }
 
-    /* 越界：探出坐标系 */
     .beyond {
       margin-left: -22px;
       margin-right: -22px;
@@ -425,7 +401,6 @@
       color: var(--ink-faint);
     }
 
-    /* 段落依次浮现 */
     .salutation, .paragraph, .quote, .signature, .boundary {
       opacity: 0;
       animation: riseIn 0.8s ease forwards;
@@ -435,7 +410,6 @@
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    /* ---------- 音乐按钮 ---------- */
     .music-btn {
       display: none;
       position: fixed;
@@ -467,7 +441,6 @@
       50% { transform: scale(0.9); opacity: 0.7; }
     }
 
-    /* 页边坐标在窄屏隐去 */
     @media (max-width: 920px) {
       .paragraph[data-addr]::before { display: none; }
     }
@@ -489,7 +462,6 @@
 <div class="page-grid"></div>
 <div class="progress" id="progress"></div>
 
-<!-- 启封页 -->
 <div class="gate" id="gate">
   <div class="coord-grid" id="coordGrid">
     <span class="axis-label y">U</span>
@@ -509,7 +481,6 @@
   <p class="hint" id="hint"></p>
 </div>
 
-<!-- 信纸 -->
 <div class="container" id="letterWrap">
   <div class="meta">2026.08</div>
   <div id="letterBox"></div>
@@ -524,9 +495,7 @@
 </button>
 
 <script>
-  // ==================== 加密内容 ====================
   const ENCRYPTED = "mEqFNbDTQftCkPloCl1oSQ==.LAbDzmvqg5pMY5ms.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";
-  // =================================================
 
   const b64ToBuf = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
 
@@ -549,11 +518,9 @@
     return new TextDecoder().decode(plainBuf);
   }
 
-  // ---------- 坐标散点 ----------
   const coordGrid = document.getElementById('coordGrid');
   const scatterPoints = [];
 
-  // 生成16个散点，分布在坐标系内（模拟效用函数的散点）
   const pointPositions = [
     [0.08, 0.9], [0.15, 0.82], [0.22, 0.75], [0.30, 0.68],
     [0.38, 0.60], [0.45, 0.52], [0.52, 0.45], [0.58, 0.38],
@@ -582,7 +549,6 @@
   const utilityCurve = document.getElementById('utilityCurve');
   let isPlaying = false;
 
-  // 页面加载时立即预加载音频（等到验证通过后再播放）
   audio.load();
 
   function updateProgress() {
@@ -614,12 +580,10 @@
       hint.textContent = 'key accepted';
       hint.classList.add('ok');
 
-      // 散点逐个点亮并连成曲线
       scatterPoints.forEach((pt, i) => {
         setTimeout(() => pt.classList.add('on'), i * 50);
       });
 
-      // 显示效用曲线
       setTimeout(() => utilityCurve.classList.add('show'), 800);
 
       setTimeout(() => gate.classList.add('leaving'), 16 * 50 + 1000);
@@ -631,7 +595,6 @@
         document.title = letterBox.querySelector('h1')?.textContent || document.title;
         realTitle = document.title;
 
-        // 页边坐标地址 (x, 0) 格式
         const boundary = letterBox.querySelector('.boundary');
         let addr = 1;
         letterBox.querySelectorAll('.paragraph').forEach(p => {
@@ -643,7 +606,6 @@
           }
         });
 
-        // 段落依次浮现
         letterBox.querySelectorAll('.salutation, .paragraph, .quote, .boundary, .signature')
           .forEach((el, i) => {
             el.style.animationDelay = (0.2 + i * 0.18) + 's';
@@ -677,7 +639,6 @@
     }
   });
 
-  // 标签页标题切换
   let realTitle = document.title;
   let titleTimer = null;
   document.addEventListener('visibilitychange', () => {
